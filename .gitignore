@@ -1,0 +1,7 @@
+target/
+.idea/
+*.iml
+*.log
+allure-results/
+allure-report/
+.env

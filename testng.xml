@@ -1,0 +1,7 @@
+<suite name="Bookstore API Tests">
+  <test name="API Tests">
+    <classes>
+      <class name="tests.BookApiTests"/>
+    </classes>
+  </test>
+</suite>
