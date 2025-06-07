@@ -4,4 +4,9 @@ target/
 *.log
 allure-results/
 allure-report/
-.env
+.envtarget/ 
+*.log 
+*.iml 
+.idea/ 
+allure-results/ 
+allure-report/ 
