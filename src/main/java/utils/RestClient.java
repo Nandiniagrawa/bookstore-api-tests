@@ -33,4 +33,25 @@ public class RestClient {
     public static Response put(String endpoint, Object body) {
         return given()
                 .contentType("application/json")
-                .body(bo
+                .body(body)
+                .log().all()
+            .when()
+                .put(endpoint)
+            .then()
+                .log().all()
+                .extract()
+                .response();
+    }
+
+    public static Response delete(String endpoint) {
+        return given()
+                .contentType("application/json")
+                .log().all()
+            .when()
+                .delete(endpoint)
+            .then()
+                .log().all()
+                .extract()
+                .response();
+    }
+}
