@@ -1,8 +1,12 @@
-name: Bookstore API Tests
+name: Bookstore API Automation CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   test:
@@ -12,28 +16,43 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      - name: Install FastAPI app dependencies
+      - name: Install FastAPI and dependencies
         run: |
           python -m pip install --upgrade pip
           pip install fastapi uvicorn
 
-      - name: Run FastAPI server
+      - name: Start FastAPI server
         run: |
           nohup uvicorn main:app --host 0.0.0.0 --port 8000 &
           sleep 5
 
-      - name: Set up Java
+      - name: Set up Java 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
+          distribution: 'temurin'  # Official OpenJDK distribution
 
-      - name: Build and run tests
+      - name: Set up Maven
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven
+          mvn -v
+
+      - name: Run Maven Tests
         run: mvn clean test
 
-      - name: Show test results
-        run: cat target/surefire-reports/*.txt || true
+      - name: Print test results
+        if: always()
+        run: |
+          echo "========== Surefire Reports =========="
+          cat target/surefire-reports/*.txt || true
+
+      - name: Generate Allure Report (optional)
+        if: always()
+        run: |
+          mvn io.qameta.allure:allure-maven:2.11.2:report || true
