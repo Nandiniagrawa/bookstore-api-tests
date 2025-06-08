@@ -1,4 +1,4 @@
-name: Bookstore API Automation CI
+name: API Automation CI
 
 on:
   push:
@@ -21,38 +21,38 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install FastAPI and dependencies
+      - name: Install FastAPI dependencies
+        working-directory: api-server
         run: |
           python -m pip install --upgrade pip
-          pip install fastapi uvicorn
+          pip install -r requirements.txt
 
       - name: Start FastAPI server
+        working-directory: api-server
         run: |
           nohup uvicorn main:app --host 0.0.0.0 --port 8000 &
-          sleep 5
+          echo "Waiting for FastAPI to start..."
+          for i in {1..15}; do
+            curl -s http://localhost:8000/health && echo "FastAPI is up!" && break
+            sleep 2
+          done
 
       - name: Set up Java 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-          distribution: 'temurin'  # Official OpenJDK distribution
+          distribution: temurin
 
-      - name: Set up Maven
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y maven
-          mvn -v
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
 
-      - name: Run Maven Tests
+      - name: Run Maven tests
         run: mvn clean test
 
-      - name: Print test results
-        if: always()
-        run: |
-          echo "========== Surefire Reports =========="
-          cat target/surefire-reports/*.txt || true
-
-      - name: Generate Allure Report (optional)
-        if: always()
-        run: |
-          mvn io.qameta.allure:allure-maven:2.11.2:report || true
+      - name: Show Test Reports (if any)
+        if: failure()
+        run: cat target/surefire-reports/*.txt || echo "No reports found"
