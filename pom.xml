@@ -24,7 +24,6 @@
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <version>${restassured.version}</version>
-      <!-- Remove scope if using in main code -->
     </dependency>
 
     <!-- RestAssured json-path -->
@@ -56,4 +55,13 @@
       <version>${json.version}</version>
     </dependency>
 
-    <!-- Allure TestN
+    <!-- Allure TestNG -->
+    <!-- Make sure this comment is closed properly -->
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-testng</artifactId>
+      <version>${allure.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
