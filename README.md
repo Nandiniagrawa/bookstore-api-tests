@@ -2,49 +2,59 @@
 
 ## 🔍 Overview
 
-This framework tests the FastAPI-based Bookstore API using RestAssured and TestNG.
+This framework automates testing of the FastAPI-based Bookstore API using **RestAssured** and **TestNG** in Java.
 
 ## 🚀 Setup Instructions
 
 1. **Start FastAPI Server**
+   Run the FastAPI application locally:
+
    ```bash
    uvicorn main:app --reload
    ```
 
 2. **Run Tests**
+   Execute the test suite using Maven:
+
    ```bash
    mvn clean test
    ```
 
 3. **Generate Allure Report**
+   To view the detailed test report:
+
    ```bash
    mvn allure:serve
    ```
 
 ## 🧪 Test Coverage
 
-- `POST /books/` - Create book ✅
-- `GET /books/` - List books ✅
-- `PUT /books/{id}` - Update book ✅
-- `DELETE /books/{id}` - Delete book ✅
+* `POST /books/` – Create a new book ✅
+* `GET /books/` – Retrieve list of books ✅
+* `PUT /books/{id}` – Update a book ✅
+* `DELETE /books/{id}` – Delete a book ✅
 
 ## 🧠 Testing Strategy
 
-- Covered both positive and negative scenarios
-- Used RestAssured for flexible request/response handling
-- TestNG enables test grouping, parallelism, and hooks
-- Configured using `ConfigManager` for environment separation
+* Covers positive and negative test scenarios for robustness
+* Uses RestAssured for flexible and readable HTTP request/response handling
+* Leverages TestNG for test orchestration, grouping, and parallel execution
+* Configuration managed via `ConfigManager` class for environment flexibility
 
 ## 🧰 CI/CD
 
-- GitHub Actions used to trigger tests on every push
-- Java 11 environment with Maven
-- Future enhancement: Deploy test report to GitHub Pages
+* Integrated GitHub Actions pipeline to trigger tests on every push
+* Uses Java 11 and Maven in CI environment
+* Plans for enhancing with automatic report deployment to GitHub Pages
 
 ## 📂 Sample Report
 
-Allure report generated at: `allure-results/` (run `mvn allure:serve` locally to view)
+Allure reports are generated in the `allure-results/` directory. Run `mvn allure:serve` to view them locally.
 
 ## 👤 Author
 
-- GitHub: [your-github-username](https://github.com/your-github-username)
+* GitHub: [your-github-username](https://github.com/your-github-username)
+
+---
+
+If you want, I can help you add badges (build status, coverage) or extend the README with more details (e.g., environment variables, troubleshooting). Just ask!
