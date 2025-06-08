@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 
@@ -32,10 +32,10 @@ def list_books():
 def update_book(book_id: int, updated_book: Book):
     for idx, b in enumerate(books_db):
         if b.id == book_id:
-            books_db[idx] = updated_book
             updated_book.id = book_id
+            books_db[idx] = updated_book
             return updated_book
-    return {"error": "Book not found"}, 404
+    raise HTTPException(status_code=404, detail="Book not found")
 
 @app.delete("/books/{book_id}", status_code=204)
 def delete_book(book_id: int):
